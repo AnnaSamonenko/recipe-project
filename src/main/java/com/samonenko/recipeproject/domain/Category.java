@@ -1,26 +1,22 @@
 package com.samonenko.recipeproject.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@Data
 @Entity
+@EqualsAndHashCode(exclude = "recipes")
 public class Category {
 
-    @Getter
-    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Getter
-    @Setter
     private String name;
 
-    @Getter
-    @Setter
     @ManyToMany(mappedBy = "categories")
     private Set<Recipe> recipes;
 }

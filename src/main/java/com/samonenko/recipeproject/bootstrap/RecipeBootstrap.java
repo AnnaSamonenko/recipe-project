@@ -4,6 +4,7 @@ import com.samonenko.recipeproject.domain.*;
 import com.samonenko.recipeproject.repositories.CategoryRepository;
 import com.samonenko.recipeproject.repositories.RecipeRepository;
 import com.samonenko.recipeproject.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+@Slf4j
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
     private final CategoryRepository categoryRepository;
@@ -141,6 +143,8 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 
         //add to return list
         recipes.add(guacRecipe);
+
+        log.debug("added guacRecipe");
 
         //Yummy Tacos
         Recipe tacosRecipe = new Recipe();

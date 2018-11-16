@@ -1,26 +1,22 @@
 package com.samonenko.recipeproject.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
 @Entity
+@Data
+@EqualsAndHashCode(exclude = "recipe")
 public class Notes {
 
-    @Getter
-    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Getter
-    @Setter
     @OneToOne
     private Recipe recipe;
 
-    @Getter
-    @Setter
     @Lob
     private String recipeNotes;
 }

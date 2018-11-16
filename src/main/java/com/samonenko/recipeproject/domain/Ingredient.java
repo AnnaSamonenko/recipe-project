@@ -1,37 +1,27 @@
 package com.samonenko.recipeproject.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@NoArgsConstructor
+@Data
+@EqualsAndHashCode(exclude = "recipe")
 public class Ingredient {
 
-    @Getter
-    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Getter
-    @Setter
     private String description;
 
-    @Getter
-    @Setter
     private BigDecimal amount;
 
-    @Getter
-    @Setter
     @ManyToOne
     private Recipe recipe;
 
-    @Getter
-    @Setter
     @OneToOne(fetch = FetchType.EAGER)
     private UnitOfMeasure unitOfMeasure;
 
