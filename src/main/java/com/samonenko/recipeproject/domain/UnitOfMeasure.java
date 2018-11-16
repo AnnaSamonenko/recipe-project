@@ -1,6 +1,7 @@
 package com.samonenko.recipeproject.domain;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 

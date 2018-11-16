@@ -2,6 +2,7 @@ package com.samonenko.recipeproject.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
 @Entity
 @Data
 @EqualsAndHashCode(exclude = "recipe")
+@NoArgsConstructor
 public class Ingredient {
 
     @Id
