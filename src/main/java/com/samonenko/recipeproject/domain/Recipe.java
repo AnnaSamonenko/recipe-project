@@ -25,6 +25,8 @@ public class Recipe {
     private String url;
 
     @Lob
+    private String direction;
+
     private String description;
 
     @Lob
