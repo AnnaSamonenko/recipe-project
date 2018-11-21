@@ -15,22 +15,22 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @RequestMapping("/recipe/show/{id}")
+    @RequestMapping("/recipe/{id}/show")
     public String showById(@PathVariable String id, Model model) {
         model.addAttribute("recipe", recipeService.findRecipeById(Long.valueOf(id)));
         return "recipe/show";
     }
 
-    @RequestMapping("recipe/new")
+    @RequestMapping("/recipe/new")
     public String addRecipe(Model model) {
         model.addAttribute("recipe", new RecipeDTO());
         return "recipe/new_recipe";
     }
 
     @PostMapping
-    @RequestMapping("recipe")
+    @RequestMapping("/recipe")
     public String saveOrUpdate(@ModelAttribute RecipeDTO recipeDTO) {
         RecipeDTO savedRecipeDto = recipeService.saveRecipe(recipeDTO);
-        return "redirect:/recipe/show/" + savedRecipeDto.getId();
+        return "redirect:/recipe/" + savedRecipeDto.getId() + "/show";
     }
 }
