@@ -8,7 +8,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class NoteToNoteDto implements Converter<Note, NoteDTO> {
 
-    private RecipeToRecipeDto recipeConverter;
+    private final RecipeToRecipeDto recipeConverter;
+
+    public NoteToNoteDto(RecipeToRecipeDto recipeConverter) {
+        this.recipeConverter = recipeConverter;
+    }
 
     @Override
     public NoteDTO convert(Note note) {
