@@ -41,11 +41,17 @@ public class RecipeDtoToRecipe implements Converter<RecipeDTO, Recipe> {
         recipe.setUrl(recipeDTO.getUrl());
         recipe.setNote(noteConverter.convert(recipeDTO.getNote()));
 
-        Set<Ingredient> ingredients = recipeDTO.getIngredients().stream().map(i -> ingredientConverter.convert(i)).collect(Collectors.toSet());
-        recipe.setIngredients(ingredients);
+        // add check on null
+        if (recipeDTO.getIngredients() != null) {
+            Set<Ingredient> ingredients = recipeDTO.getIngredients().stream().map(i -> ingredientConverter.convert(i)).collect(Collectors.toSet());
+            recipe.setIngredients(ingredients);
+        }
 
-        Set<Category> categories = recipeDTO.getCategories().stream().map(c -> categoryConverter.convert(c)).collect(Collectors.toSet());
-        recipe.setCategories(categories);
+        // add check on null
+        if (recipeDTO.getCategories() != null) {
+            Set<Category> categories = recipeDTO.getCategories().stream().map(c -> categoryConverter.convert(c)).collect(Collectors.toSet());
+            recipe.setCategories(categories);
+        }
 
         return recipe;
     }

@@ -20,12 +20,4 @@ public class CategoryTest {
         category.setId(expectedValue);
         assertEquals(expectedValue, category.getId());
     }
-
-    @Test
-    public void getName() {
-    }
-
-    @Test
-    public void getRecipes() {
-    }
 }
