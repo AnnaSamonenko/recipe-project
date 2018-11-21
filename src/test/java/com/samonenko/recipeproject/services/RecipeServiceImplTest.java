@@ -1,5 +1,7 @@
 package com.samonenko.recipeproject.services;
 
+import com.samonenko.recipeproject.converters.RecipeDtoToRecipe;
+import com.samonenko.recipeproject.converters.RecipeToRecipeDto;
 import com.samonenko.recipeproject.domain.Recipe;
 import com.samonenko.recipeproject.repositories.RecipeRepository;
 import org.junit.Before;
@@ -12,7 +14,6 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-
 import static org.junit.Assert.*;
 
 public class RecipeServiceImplTest {
@@ -20,17 +21,26 @@ public class RecipeServiceImplTest {
     private RecipeServiceImpl recipeService;
 
     @Mock
+    private RecipeToRecipeDto recipeToRecipeDto;
+
+    @Mock
+    private RecipeDtoToRecipe recipeDtoToRecipe;
+
+    @Mock
     private RecipeRepository recipeRepository;
 
+    private Recipe recipe;
+
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository, recipeDtoToRecipe, recipeToRecipeDto);
+        recipe = new Recipe();
+        recipe.setId(1L);
     }
 
     @Test
     public void getRecipesTest() {
-        Recipe recipe = new Recipe();
         Set<Recipe> recipes = new HashSet<>();
         recipes.add(recipe);
 
@@ -44,12 +54,11 @@ public class RecipeServiceImplTest {
 
     @Test
     public void findRecipeByIdTest() {
-        Recipe recipe = new Recipe();
-        recipe.setId(1L);
-        Mockito.when(recipeRepository.findById(1L)).thenReturn(Optional.of(recipe));
+        Mockito.when(recipeRepository.findById(recipe.getId())).thenReturn(Optional.of(recipe));
 
-        assertEquals(recipe, recipeService.findById(1L));
+        assertEquals(recipe, recipeService.findRecipeById(recipe.getId()));
         Mockito.verify(recipeRepository,
-                Mockito.times(1)).findById(1L);
+                Mockito.times(1)).findById(recipe.getId());
     }
+
 }

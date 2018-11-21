@@ -8,11 +8,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class IngredientDtoToIngredient implements Converter<IngredientDTO, Ingredient> {
 
-    private final RecipeDtoToRecipe recipeConverter;
     private final UnitOfMeasureDtoToUnitOfMeasure uomConverter;
 
-    public IngredientDtoToIngredient(RecipeDtoToRecipe recipeConverter, UnitOfMeasureDtoToUnitOfMeasure uomConverter) {
-        this.recipeConverter = recipeConverter;
+    public IngredientDtoToIngredient(UnitOfMeasureDtoToUnitOfMeasure uomConverter) {
         this.uomConverter = uomConverter;
     }
 
@@ -24,7 +22,6 @@ public class IngredientDtoToIngredient implements Converter<IngredientDTO, Ingre
         ingredient.setId(ingredientDTO.getId());
         ingredient.setAmount(ingredientDTO.getAmount());
         ingredient.setDescription(ingredientDTO.getDescription());
-        ingredient.setRecipe(recipeConverter.convert(ingredientDTO.getRecipe()));
         ingredient.setUnitOfMeasure(uomConverter.convert(ingredientDTO.getUnitOfMeasure()));
         return ingredient;
     }
