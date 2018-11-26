@@ -1,6 +1,5 @@
-package com.samonenko.recipeproject.controller;
+package com.samonenko.recipeproject.controllers;
 
-import com.samonenko.recipeproject.controllers.IndexController;
 import com.samonenko.recipeproject.domain.Recipe;
 import com.samonenko.recipeproject.services.RecipeService;
 import org.junit.Assert;

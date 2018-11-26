@@ -1,6 +1,5 @@
-package com.samonenko.recipeproject.controller;
+package com.samonenko.recipeproject.controllers;
 
-import com.samonenko.recipeproject.controllers.RecipeController;
 import com.samonenko.recipeproject.dto.RecipeDTO;
 import com.samonenko.recipeproject.services.RecipeService;
 import org.junit.Before;
