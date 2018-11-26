@@ -6,4 +6,5 @@ public interface IngredientService {
 
     IngredientDTO findIngredientByIds(Long recipeId, Long ingredientId);
 
+    IngredientDTO save(IngredientDTO ingredientDTO);
 }

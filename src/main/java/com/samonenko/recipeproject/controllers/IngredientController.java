@@ -1,11 +1,12 @@
 package com.samonenko.recipeproject.controllers;
 
+import com.samonenko.recipeproject.dto.IngredientDTO;
 import com.samonenko.recipeproject.services.IngredientService;
 import com.samonenko.recipeproject.services.RecipeService;
+import com.samonenko.recipeproject.services.UnitOfMeasureService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class IngredientController {
@@ -14,9 +15,12 @@ public class IngredientController {
 
     private final IngredientService ingredientService;
 
-    public IngredientController(RecipeService recipeService, IngredientService ingredientService) {
+    private final UnitOfMeasureService uomService;
+
+    public IngredientController(RecipeService recipeService, IngredientService ingredientService, UnitOfMeasureService uomService) {
         this.recipeService = recipeService;
         this.ingredientService = ingredientService;
+        this.uomService = uomService;
     }
 
     @RequestMapping("/recipe/{id}/ingredients")
@@ -30,4 +34,23 @@ public class IngredientController {
         model.addAttribute("ingredient", ingredientService.findIngredientByIds(recipeId, ingrId));
         return "recipe/ingredient/show";
     }
+
+    @PostMapping
+    @RequestMapping("/recipe/{recipe_id}/ingredient")
+    public String saveOrUpdate(@ModelAttribute IngredientDTO ingredientDTO) {
+        IngredientDTO savedIngredient = ingredientService.save(ingredientDTO);
+        return "redirect:/recipe/" + savedIngredient.getRecipe().getId() + "/ingredient/"
+                + savedIngredient.getId() + "/show";
+    }
+
+    @GetMapping
+    @RequestMapping("recipe/{recipeId}/ingredient/{id}/update")
+    public String updateRecipeIngredient(@PathVariable String recipeId,
+                                         @PathVariable String id, Model model) {
+        model.addAttribute("ingredient", ingredientService.findIngredientByIds(Long.valueOf(recipeId), Long.valueOf(id)));
+
+        model.addAttribute("uomList", uomService.listOfUOMs());
+        return "recipe/ingredient/ingredient_form";
+    }
+
 }

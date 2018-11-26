@@ -6,6 +6,7 @@ import com.samonenko.recipeproject.dto.IngredientDTO;
 import com.samonenko.recipeproject.dto.RecipeDTO;
 import com.samonenko.recipeproject.services.IngredientService;
 import com.samonenko.recipeproject.services.RecipeService;
+import com.samonenko.recipeproject.services.UnitOfMeasureService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -24,6 +25,9 @@ public class IngredientControllerTest {
     @Mock
     private IngredientService ingredientService;
 
+    @Mock
+    private UnitOfMeasureService uomService;
+
     private MockMvc mockMvc;
 
     private IngredientController controller;
@@ -32,7 +36,7 @@ public class IngredientControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        controller = new IngredientController(recipeService, ingredientService);
+        controller = new IngredientController(recipeService, ingredientService, uomService);
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
