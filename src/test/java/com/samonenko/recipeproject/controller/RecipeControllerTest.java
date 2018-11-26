@@ -1,7 +1,7 @@
 package com.samonenko.recipeproject.controller;
 
 import com.samonenko.recipeproject.controllers.RecipeController;
-import com.samonenko.recipeproject.domain.Recipe;
+import com.samonenko.recipeproject.dto.RecipeDTO;
 import com.samonenko.recipeproject.services.RecipeService;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,11 +16,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 public class RecipeControllerTest {
 
     @Mock
-    RecipeService recipeService;
+    private RecipeService recipeService;
 
-    RecipeController recipeController;
+    private RecipeController recipeController;
 
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Before
     public void setUp() {
@@ -30,9 +30,10 @@ public class RecipeControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
     }
 
+    // /recipe/{id}/show -- GET
     @Test
-    public void showById() throws Exception {
-        Recipe recipe = new Recipe();
+    public void testShowById() throws Exception {
+        RecipeDTO recipe = new RecipeDTO();
         recipe.setId(1L);
 
         Mockito.when(recipeService.findRecipeById(1L)).thenReturn(recipe);
@@ -43,13 +44,43 @@ public class RecipeControllerTest {
                 .andExpect(MockMvcResultMatchers.model().attributeExists("recipe"));
     }
 
+    // recipe/new -- GET
     @Test
-    public void addRecipe() {
+    public void testGetAddRecipe() throws Exception {
+        RecipeDTO recipeDTO = new RecipeDTO();
 
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/new"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.model().attributeExists("recipe"))
+                .andExpect(MockMvcResultMatchers.view().name("recipe/recipe_form"));
     }
 
+    // recipe/{id}/update -- GET
     @Test
-    public void saveOrUpdate() {
+    public void testGetUpdateRecipe() throws Exception {
+        RecipeDTO recipeDTO = new RecipeDTO();
+        recipeDTO.setId(1L);
 
+        Mockito.when(recipeService.findRecipeById(recipeDTO.getId())).thenReturn(recipeDTO);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/" + recipeDTO.getId() + "/update"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.model().attributeExists("recipe"))
+                .andExpect(MockMvcResultMatchers.view().name("recipe/recipe_form"));
     }
+
+    // /recipe - POST
+    // TODO fix
+    @Test
+    public void testUpdateAndSaveRecipe() throws Exception {
+        RecipeDTO recipeDTO = new RecipeDTO();
+        recipeDTO.setId(1L);
+
+        Mockito.when(recipeService.findRecipeById(Mockito.anyLong())).thenReturn(recipeDTO);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/recipe"))
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/recipe/" + recipeDTO.getId() + "/show"));
+    }
+
 }

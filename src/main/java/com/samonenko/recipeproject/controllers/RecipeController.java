@@ -24,7 +24,13 @@ public class RecipeController {
     @RequestMapping("/recipe/new")
     public String addRecipe(Model model) {
         model.addAttribute("recipe", new RecipeDTO());
-        return "recipe/new_recipe";
+        return "recipe/recipe_form";
+    }
+
+    @RequestMapping("recipe/{id}/update")
+    public String updateRecipe(@PathVariable Long id, Model model) {
+        model.addAttribute("recipe", recipeService.findRecipeById(id));
+        return "recipe/recipe_form";
     }
 
     @PostMapping

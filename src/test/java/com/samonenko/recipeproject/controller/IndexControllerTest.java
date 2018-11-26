@@ -42,7 +42,7 @@ public class IndexControllerTest {
     }
 
     @Test
-    public void getIndexPage() throws Exception {
+    public void getIndexPage() {
 
         //given
         Set<Recipe> recipes = new HashSet<>();
@@ -59,7 +59,6 @@ public class IndexControllerTest {
 
         //when
         String viewName = indexController.index(model);
-
 
         //then
         Assert.assertEquals("index", viewName);

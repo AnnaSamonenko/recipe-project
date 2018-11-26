@@ -35,11 +35,12 @@ public class RecipeServiceImpl implements RecipeService {
         return recipes;
     }
 
-    public Recipe findRecipeById(Long l) {
+    @Transactional
+    public RecipeDTO findRecipeById(Long l) {
         Optional<Recipe> recipe = recipeRepository.findById(l);
         if (!recipe.isPresent())
             throw new RuntimeException("Recipe not found");
-        return recipe.get();
+        return converterRecipeToRecipeDto.convert(recipe.get());
     }
 
     @Override

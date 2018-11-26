@@ -19,6 +19,6 @@ public class IngredientDTO {
 
     private RecipeDTO recipe;
 
-    private UnitOfMeasureDTO unitOfMeasure;
+    private UnitOfMeasureDTO uom;
 
 }
