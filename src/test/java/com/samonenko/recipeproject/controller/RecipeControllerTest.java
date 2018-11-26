@@ -80,7 +80,16 @@ public class RecipeControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.post("/recipe"))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.view().name("redirect:/recipe/" + recipeDTO.getId() + "/show"));
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/recipe/2/show"));
+    }
+
+    @Test
+    public void testDeleteRecipe() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete("/recipe/1/delete"))
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/"));
+
+        Mockito.verify(recipeService, Mockito.times(1)).deleteById(Mockito.anyLong());
     }
 
 }
