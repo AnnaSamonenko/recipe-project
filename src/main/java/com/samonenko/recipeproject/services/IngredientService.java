@@ -1,0 +1,9 @@
+package com.samonenko.recipeproject.services;
+
+import com.samonenko.recipeproject.dto.IngredientDTO;
+
+public interface IngredientService {
+
+    IngredientDTO findIngredientByIds(Long recipeId, Long ingredientId);
+
+}

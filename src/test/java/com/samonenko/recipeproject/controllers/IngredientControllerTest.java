@@ -1,6 +1,10 @@
 package com.samonenko.recipeproject.controllers;
 
+import com.samonenko.recipeproject.converters.RecipeDtoToRecipe;
+import com.samonenko.recipeproject.converters.RecipeToRecipeDto;
+import com.samonenko.recipeproject.dto.IngredientDTO;
 import com.samonenko.recipeproject.dto.RecipeDTO;
+import com.samonenko.recipeproject.services.IngredientService;
 import com.samonenko.recipeproject.services.RecipeService;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +21,9 @@ public class IngredientControllerTest {
     @Mock
     private RecipeService recipeService;
 
+    @Mock
+    private IngredientService ingredientService;
+
     private MockMvc mockMvc;
 
     private IngredientController controller;
@@ -25,7 +32,7 @@ public class IngredientControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        controller = new IngredientController(recipeService);
+        controller = new IngredientController(recipeService, ingredientService);
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
@@ -39,5 +46,12 @@ public class IngredientControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("/recipe/ingredient/list"))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("recipe"));
+    }
+
+    @Test
+    public void showIngredient() throws Exception {
+        IngredientDTO ingredientDTO = new IngredientDTO();
+
+        // TODO: implement me, please
     }
 }
