@@ -44,7 +44,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public IngredientDTO save(IngredientDTO ingredientDTO) {
-        Optional<Recipe> recipeOptional = recipeRepository.findById(ingredientDTO.getRecipe().getId());
+        Optional<Recipe> recipeOptional = recipeRepository.findById(ingredientDTO.getId());
         if (!recipeOptional.isPresent()) {
             log.error("There no recipe with such id");
             return new IngredientDTO();

@@ -37,9 +37,9 @@ public class IngredientController {
 
     @PostMapping
     @RequestMapping("/recipe/{recipe_id}/ingredient")
-    public String saveOrUpdate(@ModelAttribute IngredientDTO ingredientDTO) {
+    public String saveOrUpdate(@ModelAttribute("ingredient") IngredientDTO ingredientDTO) {
         IngredientDTO savedIngredient = ingredientService.save(ingredientDTO);
-        return "redirect:/recipe/" + savedIngredient.getRecipe().getId() + "/ingredient/"
+        return "redirect:/recipe/" + savedIngredient.getRecipeId() + "/ingredient/"
                 + savedIngredient.getId() + "/show";
     }
 

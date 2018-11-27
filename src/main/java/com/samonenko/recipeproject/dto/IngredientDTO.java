@@ -13,11 +13,11 @@ public class IngredientDTO {
 
     private Long id;
 
+    private Long recipeId;
+
     private String description;
 
     private BigDecimal amount;
-
-    private RecipeDTO recipe;
 
     private UnitOfMeasureDTO uom;
 
