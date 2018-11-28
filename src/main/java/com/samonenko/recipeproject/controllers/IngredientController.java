@@ -25,28 +25,26 @@ public class IngredientController {
         this.uomService = uomService;
     }
 
-    @RequestMapping("/recipe/{id}/ingredients")
+    @GetMapping("/recipe/{id}/ingredients")
     public String listOfIngredients(@PathVariable Long id, Model model) {
         model.addAttribute("recipe", recipeService.findRecipeById(id));
         return "/recipe/ingredient/list";
     }
 
-    @RequestMapping("/recipe/{recipe_id}/ingredient/{ingr_id}/show")
+    @GetMapping("/recipe/{recipe_id}/ingredient/{ingr_id}/show")
     public String showIngredient(@PathVariable("recipe_id") Long recipeId, @PathVariable("ingr_id") Long ingrId, Model model) {
         model.addAttribute("ingredient", ingredientService.findIngredientByIds(recipeId, ingrId));
         return "recipe/ingredient/show";
     }
 
-    @PostMapping
-    @RequestMapping("/recipe/{recipe_id}/ingredient")
+    @PostMapping("/recipe/{recipe_id}/ingredient")
     public String saveOrUpdate(@ModelAttribute("ingredient") IngredientDTO ingredientDTO, @PathVariable("recipe_id") Long recipeId) {
         IngredientDTO savedIngredient = ingredientService.save(ingredientDTO);
         return "redirect:/recipe/" + savedIngredient.getRecipeId() + "/ingredient/"
                 + savedIngredient.getId() + "/show";
     }
 
-    @GetMapping
-    @RequestMapping("recipe/{recipeId}/ingredient/{id}/update")
+    @GetMapping("recipe/{recipeId}/ingredient/{id}/update")
     public String updateRecipeIngredient(@PathVariable String recipeId,
                                          @PathVariable String id, Model model) {
         model.addAttribute("ingredient", ingredientService.findIngredientByIds(Long.valueOf(recipeId), Long.valueOf(id)));
@@ -62,8 +60,7 @@ public class IngredientController {
         return "redirect:/recipe/" + recipeId + "/ingredients";
     }
 
-    @GetMapping
-    @RequestMapping("recipe/{recipeId}/ingredient/new")
+    @GetMapping("recipe/{recipeId}/ingredient/new")
     public String createNewRecipeIngredient(@PathVariable String recipeId, Model model) {
         RecipeDTO recipe = recipeService.findRecipeById(Long.valueOf(recipeId));
         IngredientDTO ingredientDTO = new IngredientDTO();
