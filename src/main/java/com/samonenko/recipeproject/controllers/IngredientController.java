@@ -1,6 +1,8 @@
 package com.samonenko.recipeproject.controllers;
 
 import com.samonenko.recipeproject.dto.IngredientDTO;
+import com.samonenko.recipeproject.dto.RecipeDTO;
+import com.samonenko.recipeproject.dto.UnitOfMeasureDTO;
 import com.samonenko.recipeproject.services.IngredientService;
 import com.samonenko.recipeproject.services.RecipeService;
 import com.samonenko.recipeproject.services.UnitOfMeasureService;
@@ -48,6 +50,19 @@ public class IngredientController {
     public String updateRecipeIngredient(@PathVariable String recipeId,
                                          @PathVariable String id, Model model) {
         model.addAttribute("ingredient", ingredientService.findIngredientByIds(Long.valueOf(recipeId), Long.valueOf(id)));
+
+        model.addAttribute("uomList", uomService.listOfUOMs());
+        return "recipe/ingredient/ingredient_form";
+    }
+
+    @GetMapping
+    @RequestMapping("recipe/{recipeId}/ingredient/new")
+    public String createNewRecipeIngredient(@PathVariable String recipeId, Model model) {
+        RecipeDTO recipe = recipeService.findRecipeById(Long.valueOf(recipeId));
+        IngredientDTO ingredientDTO = new IngredientDTO();
+        ingredientDTO.setRecipeId(recipe.getId());
+        ingredientDTO.setUom(new UnitOfMeasureDTO());
+        model.addAttribute("ingredient", ingredientDTO);
 
         model.addAttribute("uomList", uomService.listOfUOMs());
         return "recipe/ingredient/ingredient_form";

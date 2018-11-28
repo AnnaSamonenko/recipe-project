@@ -1,5 +1,6 @@
 package com.samonenko.recipeproject.services;
 
+import com.samonenko.recipeproject.converters.IngredientDtoToIngredient;
 import com.samonenko.recipeproject.converters.IngredientToIngredientDto;
 import com.samonenko.recipeproject.domain.Ingredient;
 import com.samonenko.recipeproject.domain.Recipe;
@@ -18,11 +19,14 @@ public class IngredientServiceImpl implements IngredientService {
     private final RecipeRepository recipeRepository;
     private final UnitOfMeasureRepository uomRepository;
     private final IngredientToIngredientDto converter;
+    private final IngredientDtoToIngredient ingrDtoToIngrConverter;
 
-    public IngredientServiceImpl(RecipeRepository recipeRepository, UnitOfMeasureRepository uomRepository, IngredientToIngredientDto converter) {
+    public IngredientServiceImpl(RecipeRepository recipeRepository, UnitOfMeasureRepository uomRepository,
+                                 IngredientToIngredientDto converter, IngredientDtoToIngredient ingDtoToIngConverter) {
         this.recipeRepository = recipeRepository;
         this.uomRepository = uomRepository;
         this.converter = converter;
+        this.ingrDtoToIngrConverter = ingDtoToIngConverter;
     }
 
     @Override
@@ -64,14 +68,28 @@ public class IngredientServiceImpl implements IngredientService {
                     .orElseThrow(() -> (new RuntimeException("UOM not found"))));
             ingredientFound.setDescription(ingredientDTO.getDescription());
 
-        } else recipe.getIngredients().add(ingredientOptional.get());
+        } else {
+            Ingredient ingredient = ingrDtoToIngrConverter.convert(ingredientDTO);
+            ingredient.setRecipe(recipeOptional.get());
+            recipe.getIngredients().add(ingredient);
+        }
 
         Recipe savedRecipe = recipeRepository.save(recipe);
         // if was added ingredient
-        return converter
-                .convert(savedRecipe.getIngredients()
-                        .stream()
-                        .filter(ingredient -> ingredient.getId().equals(ingredientDTO.getId()))
-                        .findFirst().get());
+        Optional<Ingredient> savedIngredientOptional = savedRecipe.getIngredients().stream()
+                .filter(recipeIngredients -> recipeIngredients.getId().equals(ingredientDTO.getId()))
+                .findFirst();
+
+        //check by description
+        if (!savedIngredientOptional.isPresent()) {
+            //not totally safe... But best guess
+            savedIngredientOptional = savedRecipe.getIngredients().stream()
+                    .filter(recipeIngredients -> recipeIngredients.getDescription().equals(ingredientDTO.getDescription()))
+                    .filter(recipeIngredients -> recipeIngredients.getAmount().equals(ingredientDTO.getAmount()))
+                    .filter(recipeIngredients -> recipeIngredients.getUnitOfMeasure().getId().equals(ingredientDTO.getUom().getId()))
+                    .findFirst();
+        }
+
+        return converter.convert(savedIngredientOptional.get());
     }
 }
