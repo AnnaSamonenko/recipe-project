@@ -39,6 +39,7 @@ public class RecipeDtoToRecipe implements Converter<RecipeDTO, Recipe> {
         recipe.setServings(recipeDTO.getServings());
         recipe.setSource(recipeDTO.getSource());
         recipe.setUrl(recipeDTO.getUrl());
+        recipe.setImage(recipeDTO.getImage());
         recipe.setNote(noteConverter.convert(recipeDTO.getNote()));
 
         // add check on null

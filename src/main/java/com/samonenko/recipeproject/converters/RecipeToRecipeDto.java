@@ -37,6 +37,7 @@ public class RecipeToRecipeDto implements Converter<Recipe, RecipeDTO> {
         recipeDTO.setServings(recipe.getServings());
         recipeDTO.setSource(recipe.getSource());
         recipeDTO.setUrl(recipe.getUrl());
+        recipeDTO.setImage(recipe.getImage());
         recipeDTO.setNote(noteConverter.convert(recipe.getNote()));
 
         Set<CategoryDTO> categoriesDto = recipe.getCategories().stream().map(c -> categoryConverter.convert(c)).collect(Collectors.toSet());
