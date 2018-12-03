@@ -4,6 +4,7 @@ import com.samonenko.recipeproject.dto.RecipeDTO;
 import com.samonenko.recipeproject.services.RecipeService;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -69,17 +70,16 @@ public class RecipeControllerTest {
     }
 
     // /recipe - POST
-    // TODO fix
     @Test
     public void testUpdateAndSaveRecipe() throws Exception {
         RecipeDTO recipeDTO = new RecipeDTO();
         recipeDTO.setId(1L);
 
-        Mockito.when(recipeService.findRecipeById(Mockito.anyLong())).thenReturn(recipeDTO);
+        Mockito.when(recipeService.saveRecipe(Mockito.any())).thenReturn(recipeDTO);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/recipe"))
+        mockMvc.perform(MockMvcRequestBuilders.post("/recipe").param("id", "1"))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.view().name("redirect:/recipe/2/show"));
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/recipe/1/show"));
     }
 
     @Test

@@ -3,6 +3,7 @@ package com.samonenko.recipeproject.services;
 import com.samonenko.recipeproject.converters.RecipeDtoToRecipe;
 import com.samonenko.recipeproject.converters.RecipeToRecipeDto;
 import com.samonenko.recipeproject.domain.Recipe;
+import com.samonenko.recipeproject.dto.RecipeDTO;
 import com.samonenko.recipeproject.repositories.RecipeRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,11 +55,17 @@ public class RecipeServiceImplTest {
 
     @Test
     public void findRecipeByIdTest() {
+        RecipeDTO recipeDTO = new RecipeDTO();
+        recipeDTO.setId(1L);
         Mockito.when(recipeRepository.findById(recipe.getId())).thenReturn(Optional.of(recipe));
+        Mockito.when(recipeToRecipeDto.convert(recipe)).thenReturn(recipeDTO);
 
-        assertEquals(recipe, recipeService.findRecipeById(recipe.getId()));
+        assertEquals(recipeDTO, recipeService.findRecipeById(recipe.getId()));
+
         Mockito.verify(recipeRepository,
                 Mockito.times(1)).findById(recipe.getId());
+        Mockito.verify(recipeToRecipeDto,
+                Mockito.times(1)).convert(recipe);
     }
 
     @Test

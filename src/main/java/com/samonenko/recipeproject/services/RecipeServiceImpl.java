@@ -4,6 +4,7 @@ import com.samonenko.recipeproject.converters.RecipeDtoToRecipe;
 import com.samonenko.recipeproject.converters.RecipeToRecipeDto;
 import com.samonenko.recipeproject.domain.Recipe;
 import com.samonenko.recipeproject.dto.RecipeDTO;
+import com.samonenko.recipeproject.exceptions.NotFoundException;
 import com.samonenko.recipeproject.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class RecipeServiceImpl implements RecipeService {
     public RecipeDTO findRecipeById(Long l) {
         Optional<Recipe> recipe = recipeRepository.findById(l);
         if (!recipe.isPresent())
-            throw new RuntimeException("Recipe not found");
+            throw new NotFoundException("Recipe not found");
         return converterRecipeToRecipeDto.convert(recipe.get());
     }
 
