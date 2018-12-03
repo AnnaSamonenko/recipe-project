@@ -51,7 +51,15 @@ public class RecipeController {
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String notFound() {
+    public String notFound(Model model, Exception exception) {
+        model.addAttribute("exception", exception);
         return "404";
+    }
+
+    @ExceptionHandler(NumberFormatException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String badRequest(Model model, Exception exception) {
+        model.addAttribute("exception", exception);
+        return "400";
     }
 }

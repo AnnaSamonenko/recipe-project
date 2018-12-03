@@ -56,6 +56,12 @@ public class RecipeControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
+    @Test
+    public void testGetRecipeNumberFormatException() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/cfh/show"))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
     // recipe/new -- GET
     @Test
     public void testGetAddRecipe() throws Exception {
