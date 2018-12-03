@@ -1,10 +1,11 @@
 package com.samonenko.recipeproject.controllers;
 
+import com.samonenko.recipeproject.domain.Recipe;
 import com.samonenko.recipeproject.dto.RecipeDTO;
+import com.samonenko.recipeproject.exceptions.NotFoundException;
 import com.samonenko.recipeproject.services.RecipeService;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -42,6 +43,17 @@ public class RecipeControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("recipe/show"))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("recipe"));
+    }
+
+    @Test
+    public void testGetRecipeNotFound() throws Exception {
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+
+        Mockito.when(recipeService.findRecipeById(Mockito.anyLong())).thenThrow(NotFoundException.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/1/show"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
     // recipe/new -- GET
