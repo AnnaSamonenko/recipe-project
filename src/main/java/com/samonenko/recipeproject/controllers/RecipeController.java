@@ -1,7 +1,9 @@
 package com.samonenko.recipeproject.controllers;
 
 import com.samonenko.recipeproject.dto.RecipeDTO;
+import com.samonenko.recipeproject.exceptions.NotFoundException;
 import com.samonenko.recipeproject.services.RecipeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -45,5 +47,11 @@ public class RecipeController {
     public String deleteById(@PathVariable Long id) {
         recipeService.deleteById(id);
         return "redirect:/";
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String notFound() {
+        return "404";
     }
 }
