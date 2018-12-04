@@ -94,9 +94,23 @@ public class RecipeControllerTest {
 
         Mockito.when(recipeService.saveRecipe(Mockito.any())).thenReturn(recipeDTO);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/recipe").param("id", "1"))
+        mockMvc.perform(MockMvcRequestBuilders.post("/recipe").param("id", "1")
+                .param("description", "description").param("direction", "direction"))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.view().name("redirect:/recipe/1/show"));
+    }
+
+    @Test
+    public void testUpdateAndSaveRecipeWithInvalidData() throws Exception {
+        RecipeDTO recipeDTO = new RecipeDTO();
+        recipeDTO.setId(1L);
+
+        Mockito.when(recipeService.saveRecipe(Mockito.any())).thenReturn(recipeDTO);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/recipe").param("id", "1")
+                .param("description", "description"))
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/recipe/new"));
     }
 
     @Test
