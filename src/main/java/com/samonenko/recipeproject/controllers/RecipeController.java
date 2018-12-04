@@ -1,9 +1,7 @@
 package com.samonenko.recipeproject.controllers;
 
 import com.samonenko.recipeproject.dto.RecipeDTO;
-import com.samonenko.recipeproject.exceptions.NotFoundException;
 import com.samonenko.recipeproject.services.RecipeService;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -49,17 +47,4 @@ public class RecipeController {
         return "redirect:/";
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String notFound(Model model, Exception exception) {
-        model.addAttribute("exception", exception);
-        return "404";
-    }
-
-    @ExceptionHandler(NumberFormatException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String badRequest(Model model, Exception exception) {
-        model.addAttribute("exception", exception);
-        return "400";
-    }
 }

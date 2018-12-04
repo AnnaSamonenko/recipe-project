@@ -27,8 +27,7 @@ public class RecipeControllerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         recipeController = new RecipeController(recipeService);
-
-        mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(recipeController).setControllerAdvice(ControllerExceptionHandler.class).build();
     }
 
     // /recipe/{id}/show -- GET
@@ -50,7 +49,7 @@ public class RecipeControllerTest {
         Recipe recipe = new Recipe();
         recipe.setId(1L);
 
-        Mockito.when(recipeService.findRecipeById(Mockito.anyLong())).thenThrow(NotFoundException.class);
+        Mockito.when(recipeService.findRecipeById(Mockito.eq(1L))).thenThrow(NotFoundException.class);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/recipe/1/show"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
