@@ -39,7 +39,7 @@ public class RecipeController {
     }
 
     @PostMapping("/recipe")
-    public String saveOrUpdate(@ModelAttribute @Valid RecipeDTO recipeDTO, BindingResult result) {
+    public String saveOrUpdate(@Valid @ModelAttribute("recipe") RecipeDTO recipeDTO, BindingResult result) {
 
         if (result.hasErrors()) {
             result.getAllErrors().forEach(objectError -> {
